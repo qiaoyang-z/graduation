@@ -6,14 +6,14 @@
 	<author email=""> </author>
 	<icon src="icon.png"/>
 	<license href=""/>
-	<content encoding="utf-8" src="index.html"/>
+	<content encoding="utf-8" src="app_index.html"/>
 	<updateurl/>
 	<logserverip/> 
 	<showmyspace>false</showmyspace>
 	<obfuscation>true</obfuscation>
 	<bgcolor>#fefefe</bgcolor>
 	<orientation>15</orientation>
-<debug/>
+<debug>true</debug>
 <partobfuscation/>
 <webapp/>
 </widget>
