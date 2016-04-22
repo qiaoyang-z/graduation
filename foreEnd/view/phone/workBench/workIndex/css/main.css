@@ -9,6 +9,12 @@ input[type = radio] + div > div.t-gra1 {
 input[type = radio]:checked + div > div.t-gra1 {
 	border-bottom:2px solid #f78c3e;
 }
+input[type = radio] + div > div.t-gra2 {
+}
+input[type = radio]:checked + div > div.t-gra2 {
+    color:#DC1649;
+    font-weight: bold;
+}
 .umhh1{
 	min-height:2.6em;
 }

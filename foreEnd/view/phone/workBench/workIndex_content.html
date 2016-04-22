@@ -15,7 +15,7 @@
     <body class="um-vp bc-bg c-gra" ontouchstart>
        <div class="ub ub-ver ub-fv">
             <!--content-->
-            <div class="ub ub-ver uinn-squ1">
+            <div class="ub ub-ver uinn-squ1" id="content1">
                 <div class="ub">
                     <div class="ub-f1 ub ub-ver ub-ac">
                         <div class="uc-a-squ1 uwh-squ1 c-red1-squ ub ub-ac ub-pc">
@@ -34,15 +34,65 @@
                         </div>
                     </div>
                 </div>
+                
+            </div>
+            <div class="ub ub-ver" id="content2"> 
+                <div class="ub ub-f1 uinn2 umh2" height='1.5em'>
+                    <div class="ut ub-f3 ulev-3 ut-s tx-l ub-rev ub-ae">
+                            今天任务
+                    </div>
+                    <div class=" ub ub-f1  ub-ae">
+                         <input class="uhide" type="radio" name="type" id="but1" checked="true">
+                <div class="ub ub-f1 ubr b-gra" onclick="" onmousedown="appcan.touch('',appcan.elementFor)" ontouchstart="appcan.touch('',appcan.elementFor)" id="header1">
+                    <div class="t-gra2 ub-f1 ub ub-ac ub-pc ulev-1">
+                        截止时间
+                    </div>
+                </div>
+                <input class="uhide" type="radio" name="type" id="but3" >
+                <div class="ub ub-f1 ubr b-gra"  onclick="" onmousedown="appcan.touch('',appcan.elementFor)" ontouchstart="appcan.touch('',appcan.elementFor)">
+                    <div class="t-gra2 ub-f1 ub ub-ac ub-pc ulev-1">
+                        重要程度
+                    </div>
+                </div>                       
+                    </div>
+                </div>                      
+                </div>
+            <div class="ub ub-ver ub-f1  c-gra" id="content3">
+                <div id="listview"  class="ubt bc-border">
+                </div>
+
+
             </div>
         </div>
     </body>
     <script src="../js/appcan.js"></script>
     <script src="../js/appcan.control.js"></script>
-    </body>
+   <script src="./../js/appcan.listview.js"></script>
+ </body>
     <script>
         appcan.ready(function() {
         });
 
-    </script>
+var lv = appcan.listview({
+    selector : "#listview",
+    type : "thinLine",
+    hasIcon : true,
+    hasAngle : false,
+    hasSubTitle : true,
+    multiLine : 1,
+});
+lv.set([{
+    title : "完成数据库",
+    icon:"./css/res/appcan_s.png",
+    subTitle:"12:05",
+    id:"1"
+}, {
+    title : "完成界面",
+    icon:"./css/res/appcan_s.png",
+    subTitle:"12:05",
+    id:"2"
+}])
+lv.on("click",function(ele,obj,curEle){
+})
+ </script>
 </html>
