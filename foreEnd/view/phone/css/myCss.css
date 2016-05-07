@@ -1,3 +1,7 @@
 .lis-icon {
     width: 1.5em !important;
 }
+select option{
+    width: 100%;
+    
+}

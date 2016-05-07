@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="css/ui-color.css">
         <link rel="stylesheet" href="css/appcan.icon.css">
         <link rel="stylesheet" href="css/appcan.control.css">
-        <link rel="stylesheet" href="login_content/css/main.css">
+        <link rel="stylesheet" href="css/login_content/css/main.css">
     </head>
     <body class="um-vp bc-bg" ontouchstart>
         <div class="ub ub-ver uinn-a3 ub-fv">
@@ -20,32 +20,29 @@
                         <div class="ub ub-ac ubb umh5 bc-border ">
                             <div class=" uinput ub ub-f1">
                                 <div class="uinn fa fa-user sc-text"></div>
-                                <input placeholder="手机/邮箱/用户名" type="text" class="ub-f1">
+                                <input placeholder="手机/邮箱/用户名" type="text" class="ub-f1" id="accountNumber">
                             </div>
                         </div>
                         <div class="ub ub-ac umh5 bc-border ">
                             <div class=" uinput ub ub-f1">
                                 <div class="uinn fa fa-lock sc-text"></div>
-                                <input placeholder="密码" type="password" class="umw4 ub-f1">
+                                <input placeholder="密码" type="password" class="umw4 ub-f1" id="password">
 
                             </div>
                         </div>
                     </div>
                     <div class="ub ub-ver">
-                        <div class="ub ub-pe uinn-a6 sc-text-active ulev-4">
-                            忘记密码
-                        </div>
                         <div class="uinn-at1">
                             <div class="btn ub ub-ac bc-text-head ub-pc bc-btn uc-a1" id="submit">
                                 登录
                             </div>
                         </div>
                         <div class="uinn-at2 ub sc-text-active ulev-4">
-                            <div class="ub-f1">
+                            <div class="ub-f1" id="register">
                                 立即注册
                             </div>
                             <div class="ub-f1 tx-r">
-                                无账号快捷登录
+                                忘记密码
                             </div>
                         </div>
                     </div>
@@ -63,23 +60,72 @@
             appcan.initBounce();
         })
         appcan.button("#submit", "ani-act", function() {
-            $("form").submit();
+            // $("form").submit();
+            console.log("提交了")
+            uexWindow.open("workBench","0","workBench/workIndex.html","0","0","0","0","200");
+              var accountNumber = $("#accountNumber").val();
+              var password = $("#password").val();
+             appcan.request.ajax({
+                url : '/userLogin',
+                type : 'POST',
+                dataType : 'json',
+                data : {
+                    accountNumber: accountNumber,
+                    password: password  
+                },
+                success : function(data) {                            
+                    // if(data.status == 0){
+                        // uexWindow.toast("0", "5", data.msg, "2000");
+                    // }
+                    // if (data.status == 1) {
+                        // console.log(JSON.stringify(data));
+                        // uexWindow.toast("0", "5", data.msg, "2000");
+                        // appcan.locStorage.setVal("userinfo",data.user);                                
+                        // appcan.locStorage.setVal("userId", data.user._id);
+                        // appcan.locStorage.setVal("inviteCode", data.user.inviteCode);
+                        // var params = {
+                            // alias:data.user._id
+                        // };
+                        // var data = JSON.stringify(params);
+                        // uexJPush.setAlias(data);
+                        // appcan.window.open("root","index.html",10,4);
+                        // // uexWindow.evaluateScript('root',0,'reload();');
+                        // window.setTimeout("appcan.window.close(-1);",2000); 
+                    // }
+                    console.log("发送成功")
+                },
+                error : function(errMessage) {
+                    // alert("errMessage"+errMessage);
+                 
+                }
+            });
         })
 
-        $("form").on('submit', function() {
-            appcan.request.postForm($("form"), function() {
-                appcan.window.alert({
-                    title : "提醒",
-                    content : "您已经提交了表单:)",
-                    buttons : '确定',
-                    callback : function(err, data, dataType, optId) {
-                        console.log(err, data, dataType, optId);
-                    }
-                });
-            }, function(err) {
-
+        // $("form").on('submit', function() {
+            // appcan.request.postForm($("form"), function() {
+                // appcan.window.alert({
+                    // title : "提醒",
+                    // content : "您已经提交了表单:)",
+                    // buttons : '确定',
+                    // callback : function(err, data, dataType, optId) {
+                        // console.log(err, data, dataType, optId);
+                    // }
+                // });
+            // }, function(err) {
+// 
+            // });
+//             
+//             
+            // return false;
+        // });
+        $("#register").on('tap',function(){
+            appcan.window.open({
+                 name:register,
+                 dataType:0,
+                 aniId:2,
+                 data:"register.html",
+                 
             });
-            return false;
-        });
+        })
     </script>
 </html>

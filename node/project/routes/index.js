@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
+console.log("index.js")
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  console.log("这儿");
+  res.render('phone/login.html', { title: 'Express' });
 });
 
 module.exports = router;

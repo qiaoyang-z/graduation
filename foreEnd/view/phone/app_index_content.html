@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="css/ui-color.css">
         <link rel="stylesheet" href="css/appcan.icon.css">
         <link rel="stylesheet" href="css/appcan.control.css">
-        <link rel="stylesheet" href="app_index_content/css/main.css">
+        <link rel="stylesheet" href="css/app_index_content/css/main.css">
     </head>
     <body class="um-vp bc-bg" ontouchstart>
         <div class="ub logoBg2 ub-img1 ub-fv">
@@ -20,12 +20,12 @@
                 </div>
                 <div class="ub ub-ver ub-pe ub-f1 uinn-pLb1">             
                     <div class="uinn">
-                        <div class="btn ub ub-ac bc-text-head ub-pc bc-btn uc-a1" >
+                        <div class="btn ub ub-ac bc-text-head ub-pc bc-btn uc-a1" id="register">
                             注册帐号
                         </div>
                     </div>
                     <div class="uinn">
-                        <div class="btn ub ub-ac bc-text-head ub-pc sc-btn uc-a1" >
+                        <div class="btn ub ub-ac bc-text-head ub-pc sc-btn uc-a1" id="login">
                             登录
                         </div>
                     </div>
@@ -36,11 +36,47 @@
         <script src="js/appcan.control.js"></script>
     </body>
     <script>
+    var userId=0;
         appcan.ready(function() {
             appcan.initBounce();
         })
-        appcan.button(".btn", "ani-act", function() {
+        // appcan.button(".btn", "ani-act", function() {
+        // })
+        // $("#register").on('click',function(){
+            // appcan.window.open({
+                 // name:register,
+                 // dataType:0,
+                 // aniId:2,
+                 // data:"/register.html",
+//                  
+            // });
+        // })
+        // $("#login").on('click',function(){
+            // appcan.window.open({
+                 // name:login,
+                 // dataType:0,
+                 // aniId:2,
+                 // data:"/login.html",
+//                  
+            // });
+        // })
+        appcan.button("#register", "btn-act", function() {
+            console.log("注册");
+            if(userId!=null){                
+                uexWindow.open("register","0","register.html","0","0","0","0","200");
+                // appcan.window.open("cart","cart.html",0);
+            } else{
+                appcan.window.open("login","login.html",16);
+            }
         })
-
+        appcan.button("#login", "btn-act", function() {
+          console.log("登录");
+            if(userId!=null){                
+                uexWindow.open("login","0","login.html","0","0","0","0","200");
+                // appcan.window.open("cart","cart.html",0);
+            } else{
+                appcan.window.open("login","login.html",16);
+            }
+        })
     </script>
 </html>
