@@ -43,14 +43,14 @@
                     </div>
                     <div class=" ub ub-f1  ub-ae">
                          <input class="uhide" type="radio" name="type" id="but1" checked="true">
-                <div class="ub ub-f1 ubr b-gra" onclick="" onmousedown="appcan.touch('',appcan.elementFor)" ontouchstart="appcan.touch('',appcan.elementFor)" id="header1">
-                    <div class="t-gra2 ub-f1 ub ub-ac ub-pc ulev-1">
+                <div class="ub ub-f1 ubr b-gra"  onmousedown="appcan.touch('',appcan.elementFor)" ontouchstart="appcan.touch('',appcan.elementFor)" id="header1">
+                    <div class="t-gra2 ub-f1 ub ub-ac ub-pc ulev-1" id="byEndTime">
                         截止时间
                     </div>
                 </div>
                 <input class="uhide" type="radio" name="type" id="but3" >
-                <div class="ub ub-f1 ubr b-gra"  onclick="" onmousedown="appcan.touch('',appcan.elementFor)" ontouchstart="appcan.touch('',appcan.elementFor)">
-                    <div class="t-gra2 ub-f1 ub ub-ac ub-pc ulev-1">
+                <div class="ub ub-f1 ubr b-gra"  onmousedown="appcan.touch('',appcan.elementFor)" ontouchstart="appcan.touch('',appcan.elementFor)">
+                    <div class="t-gra2 ub-f1 ub ub-ac ub-pc ulev-1" id="byStatus">
                         重要程度
                     </div>
                 </div>                       
@@ -71,28 +71,103 @@
  </body>
     <script>
         appcan.ready(function() {
+            var myDate = getDate();
+            var myTaskByendTime = {};
+            var myTaskByStatus = {};
+            var listviewData = [];
+            var lv = appcan.listview({
+                selector : "#listview",
+                type : "thinLine",
+                hasIcon : true,
+                hasAngle : false,
+                hasSubTitle : true,
+                multiLine : 1,
+            });
+             console.log(myDate) 
+            appcan.request.ajax({
+                url : 'http://localhost/myTaskByendTime',
+                type : 'post',
+                dataType : 'json',
+                async:false,
+                data : {
+                    myDate: myDate
+                },
+                success : function(data) {
+                   myTaskByendTime = data.data;
+                   getListviewData(myTaskByendTime)
+                   console.log(myTaskByendTime)
+                },
+                error : function(errMessage) {
+                    // console.log("errMessage"+errMessage);
+                 
+                }
+            });
+            appcan.request.ajax({
+                url : 'http://localhost/myTaskByStatus',
+                type : 'post',
+                dataType : 'json',
+                async:false,
+                data : {
+                    myDate: myDate
+                },
+                success : function(data) { 
+                  myTaskByStatus = data.data;
+                  console.log(myTaskByStatus)
+                },
+                error : function(errMessage) {
+                    // console.log("errMessage"+errMessage);
+                 
+                }
+            });
+            lv.on("click",function(ele,obj,curEle){
+            })
+                      
+           appcan.button("#byStatus", "btn-act", function() {                       
+                  getListviewData(myTaskByStatus)  
+            })
+           appcan.button("#byEndTime", "btn-act", function() {                           
+                  getListviewData(myTaskByendTime)  
+            })
+           function getListviewData(data){
+                 var myTaskData = {};
+                 $.each(data,function(i,v){                    
+                       myTaskData={
+                           title :  v.taskName,
+                           subTitle : v.endTime,
+                           id : i+1,
+                           icon :"../images/statusLogo/urgent"+v.exigenceStatus+".png"
+                       }
+                       listviewData[i]=myTaskData
+                   })
+                   lv.set(listviewData)
+                                                          
+                    console.log("发送成功")
+             }
+             // console.log(getListviewData())
+            function getDate(){
+                var d = new Date();
+                var year = d.getFullYear();
+                var month = d.getMonth() + 1;
+                var date = d.getDate();
+                var day = d.getDay();
+                var curDateTime = year;
+                if (month > 9)
+                    curDateTime = curDateTime + "-" + month;
+                else
+                    curDateTime = curDateTime + "-0" + month;
+                if (date > 9)
+                    curDateTime = curDateTime + "-" + date;
+                else
+                    curDateTime = curDateTime + "-0" + date;
+                    return curDateTime
+    
+                }
+                
+                
+                
+                
         });
 
-var lv = appcan.listview({
-    selector : "#listview",
-    type : "thinLine",
-    hasIcon : true,
-    hasAngle : false,
-    hasSubTitle : true,
-    multiLine : 1,
-});
-lv.set([{
-    title : "完成数据库",
-    icon:"",
-    subTitle:"12:05",
-    id:"1"
-}, {
-    title : "完成界面",
-    icon:"",
-    subTitle:"12:05",
-    id:"2"
-}])
-lv.on("click",function(ele,obj,curEle){
-})
+
  </script>
 </html>

@@ -58,44 +58,32 @@
     <script>
         appcan.ready(function() {
             appcan.initBounce();
-        })
-        appcan.button("#submit", "ani-act", function() {
+            appcan.button("#submit", "ani-act", function() {
             // $("form").submit();
             console.log("提交了")
-            uexWindow.open("workBench","0","workBench/workIndex.html","0","0","0","0","200");
+            // uexWindow.open("workBench","0","workBench/workIndex.html","0","0","0","0","200");
               var accountNumber = $("#accountNumber").val();
               var password = $("#password").val();
-             appcan.request.ajax({
-                url : '/userLogin',
+              appcan.request.ajax({
+                url : 'http://localhost/userLogin',
                 type : 'POST',
                 dataType : 'json',
                 data : {
                     accountNumber: accountNumber,
                     password: password  
                 },
-                success : function(data) {                            
-                    // if(data.status == 0){
-                        // uexWindow.toast("0", "5", data.msg, "2000");
-                    // }
-                    // if (data.status == 1) {
-                        // console.log(JSON.stringify(data));
-                        // uexWindow.toast("0", "5", data.msg, "2000");
-                        // appcan.locStorage.setVal("userinfo",data.user);                                
-                        // appcan.locStorage.setVal("userId", data.user._id);
-                        // appcan.locStorage.setVal("inviteCode", data.user.inviteCode);
-                        // var params = {
-                            // alias:data.user._id
-                        // };
-                        // var data = JSON.stringify(params);
-                        // uexJPush.setAlias(data);
-                        // appcan.window.open("root","index.html",10,4);
-                        // // uexWindow.evaluateScript('root',0,'reload();');
-                        // window.setTimeout("appcan.window.close(-1);",2000); 
-                    // }
+                success : function(data) {
+                    console.log(data)
+                                        
+                    if(data.status == 0){
+                        uexWindow.open("workBench","0","workBench/workIndex.html","0","0","0","0","200");      
+                    }else{
+                        appcan.window.openToast(data.msg, 2000, 5);
+                    };
                     console.log("发送成功")
                 },
                 error : function(errMessage) {
-                    // alert("errMessage"+errMessage);
+                    // console.log("errMessage"+errMessage);
                  
                 }
             });
@@ -127,5 +115,7 @@
                  
             });
         })
+        })
+        
     </script>
 </html>
