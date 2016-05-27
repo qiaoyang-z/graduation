@@ -26,11 +26,11 @@
             </div>
             <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac umar-at1" >
                 <div class="ulev-app1 umw4">
-                    手机号
+                    账号
                 </div>
                 <div class="ub ub-ac umh5 ub-f1">
                     <div class="uinput ub ub-f1">
-                        <input placeholder="手机号" type="text" class="ub-f1" id="accountTel">
+                        <input placeholder="账号" type="text" class="ub-f1" id="accountNumber">
                     </div>
                 </div>
             </div>
@@ -65,14 +65,6 @@
                 </div>
             </div>
             <div class="ub ub-ver">
-                <div class="ub ub-pe uinn-a6 ulev-4">
-                    <div class="sc-text">
-                        我同意
-                    </div>
-                    <div class="sc-text-active">
-                        用户服务协议
-                    </div>
-                </div>
                 <div class="uinn-at1">
                     <div class="btn ub ub-ac bc-text-head ub-pc bc-btn"  id="submit">
                         注册
@@ -84,6 +76,7 @@
     <script src="js/appcan.js"></script>
     <script src="js/appcan.control.js"></script>
     <script src="js/appcan.listview.js"></script>
+    <script src="js/myAppcan.js"></script>
     </body>
     <script>
         appcan.ready(function() {
@@ -92,7 +85,7 @@
             appcan.button("#submit", "ani-act", function() {
             // $("form").submit();
             var accountEmail = $("#accountEmail").val();
-            var accountTel = $("#accountTel").val();
+            var accountNumber = $("#accountNumber").val();
             var accountName = $("#accountName").val();
             var password = $("#password").val();
             var confirmPassword = $("#confirmPassword").val();
@@ -100,41 +93,23 @@
                 appcan.window.openToast("两次输入的密码不相同", 2000, 5);
             }else{
                 appcan.request.ajax({
-                url : 'http://localhost/register',
+                url : 'http://'+ip+'/register',
                 type : 'POST',
                 dataType : 'json',
                 data : {
                     accountEmail: accountEmail,
-                    accountTel: accountTel,
+                    accountNumber: accountNumber,
                     accountName :accountName,
                     password:password
                 },
                 success : function(data) {
                     console.log(data)
-                    appcan.window.openToast("注册成功", 2000, 5); 
-                    window.setTimeout("appcan.window.close(-1);",2000);                         
-                    // if(data.status == 0){
-                        // uexWindow.toast("0", "5", data.msg, "2000");
-                    // }
-                    // if (data.status == 1) {
-                        // console.log(JSON.stringify(data));
-                        // uexWindow.toast("0", "5", data.msg, "2000");
-                        // appcan.locStorage.setVal("userinfo",data.user);                                
-                        // appcan.locStorage.setVal("userId", data.user._id);
-                        // appcan.locStorage.setVal("inviteCode", data.user.inviteCode);
-                        // var params = {
-                            // alias:data.user._id
-                        // };
-                        // var data = JSON.stringify(params);
-                        // uexJPush.setAlias(data);
-                        // appcan.window.open("root","index.html",10,4);
-                        // // uexWindow.evaluateScript('root',0,'reload();');
-                        // window.setTimeout("appcan.window.close(-1);",2000); 
-                    // }
+                    appcan.window.openToast(data.msg, 2000, 5); 
+                    // window.setTimeout("appcan.window.close(-1);",2000); 
                     console.log("发送成功")
                 },
                 error : function(errMessage) {
-                    console.log("errMessage"+errMessage);
+                    appcan.window.openToast("程序出错，程序员又要加班啦！", 2000, 5);
                  
                 }
             });

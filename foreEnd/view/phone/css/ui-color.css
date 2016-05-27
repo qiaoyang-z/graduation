@@ -70,7 +70,11 @@
 .sc-btn {
     background-color: #00A1EA;
 }
-
+.my-btn{
+    background-color:#D5D5D8;
+    border-radius: 10px;
+    padding: 5px;
+}
 
 
 

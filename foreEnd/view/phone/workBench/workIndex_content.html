@@ -17,9 +17,9 @@
             <!--content-->
             <div class="ub ub-ver uinn-squ1" id="content1">
                 <div class="ub">
-                    <div class="ub-f1 ub ub-ver ub-ac">
+                    <div class="ub-f1 ub ub-ver ub-ac" id="myTask">
                         <div class="uc-a-squ1 uwh-squ1 c-red1-squ ub ub-ac ub-pc">
-                            <div class="uc-a-squ1 uwh-squ1 ub-img squIcon5"></div>
+                            <div class="uc-a-squ1 uwh-squ1 ub-img squIcon6"></div>
                         </div>
                         <div class="umar-at1 t-gra7 tx-c ulev-squ">
                             我的任务
@@ -27,10 +27,10 @@
                     </div>
                     <div class="ub-f1 ub ub-ver ub-ac">
                         <div class="uc-a-squ1 uwh-squ1 c-blu1-squ ub ub-ac ub-pc">
-                            <div class="uc-a-squ1 uwh-squ1 ub-img squIcon4"></div>
+                            <div class="uc-a-squ1 uwh-squ1 ub-img squIcon5"></div>
                         </div>
                         <div class="umar-at1 t-gra7 tx-c ulev-squ">
-                            日程安排
+                            消息
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,8 @@
     </body>
     <script src="../js/appcan.js"></script>
     <script src="../js/appcan.control.js"></script>
-   <script src="./../js/appcan.listview.js"></script>
+   <script src="../js/appcan.listview.js"></script>
+   <script src="../js/myAppcan.js"></script>
  </body>
     <script>
         appcan.ready(function() {
@@ -85,7 +86,7 @@
             });
              console.log(myDate) 
             appcan.request.ajax({
-                url : 'http://localhost/myTaskByendTime',
+                url : 'http://'+ip+'/myTaskByendTime',
                 type : 'post',
                 dataType : 'json',
                 async:false,
@@ -103,7 +104,7 @@
                 }
             });
             appcan.request.ajax({
-                url : 'http://localhost/myTaskByStatus',
+                url : 'http://'+ip+'/myTaskByStatus',
                 type : 'post',
                 dataType : 'json',
                 async:false,
@@ -128,19 +129,32 @@
            appcan.button("#byEndTime", "btn-act", function() {                           
                   getListviewData(myTaskByendTime)  
             })
+            appcan.button("#myTask", "btn-act", function() {                           
+                  uexWindow.open("myTask","0","myTask.html","0","0","0","0","200");  
+            })
+            
+            
            function getListviewData(data){
                  var myTaskData = {};
                  $.each(data,function(i,v){                    
                        myTaskData={
                            title :  v.taskName,
                            subTitle : v.endTime,
-                           id : i+1,
-                           icon :"../images/statusLogo/urgent"+v.exigenceStatus+".png"
+                           id : v.taskId,
+                           icon :"../images/statusLogo/urgent"+v.exigenceStatus+".png",
+                           pagename : v.taskName,
+                           pageurl:"task.html",
                        }
                        listviewData[i]=myTaskData
                    })
                    lv.set(listviewData)
-                                                          
+                    lv.on("click",function(obj,data,subObj){
+                        appcan.window.open(data.pagename,data.pageurl,10);
+                        appcan.locStorage.remove("taskId");
+                        appcan.locStorage.remove("taskName");                      
+                        appcan.locStorage.setVal("taskId",data.id)
+                        appcan.locStorage.setVal("taskName",data.pagename)                       
+                    })                                      
                     console.log("发送成功")
              }
              // console.log(getListviewData())

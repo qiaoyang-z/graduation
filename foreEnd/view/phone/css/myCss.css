@@ -5,3 +5,12 @@ select option{
     width: 100%;
     
 }
+.myBtn_l{
+    margin-left:1em;
+}
+.myBtn_r{
+    margin-right: 1em;
+}
+.none {
+    display: none !important;
+}

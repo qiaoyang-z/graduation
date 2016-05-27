@@ -44,54 +44,81 @@
     </body>
     <script src="../js/appcan.js"></script>
     <script src="../js/appcan.control.js"></script>
-   <script src="./../js/appcan.listview.js"></script>
+   <script src="../js/appcan.listview.js"></script>
+   <script src="../js/myAppcan.js"></script>
+   
  </body>
     <script>
         appcan.ready(function() {
+            var lv1 = appcan.listview({
+                selector : "#listview1",
+                type : "thinLine",
+                hasIcon : true,
+                hasAngle : false,
+                hasSubTitle : false,
+                hasCheckbox:false,
+                multiLine : 1,
+            });
+            var lv2 = appcan.listview({
+                selector : "#listview2",
+                type : "thinLine",
+                hasIcon : true,
+                hasAngle : false,
+                hasSubTitle : false,
+                hasCheckbox:false,
+                multiLine : 1,
+            });
+               appcan.request.ajax({
+                url:"http://"+ip+"/myProject",
+                type:"post",
+                dataType:'json',
+                async:false,
+                success:function(data){
+                    console.log(data);
+                    var personalListviewArray = [];
+                    var teamListviewArray = [];                          
+                    $.each(data.data.personalArray,function(i,v){                     
+                        personalListviewArray[i] = {
+                           title:v.projectName,
+                           icon:"../images/projectLogo/projectLogo"+v.logo+".png",
+                           pagename : v.projectName,
+                           pageurl:"project.html",
+                           id:v.projectId
+                        } 
+                       
+                    })
+                    lv1.set(personalListviewArray)
+                    
+                    $.each(data.data.teamListArray,function(i,v){
+                       teamListviewArray[i] = {
+                           title:v.projectName,
+                           icon:"../images/projectLogo/projectLogo"+v.logo+".png",
+                           pagename : v.projectName,
+                           pageurl:"project.html",
+                           id:v.projectId
+                        } 
+                    })
+                    lv2.set(teamListviewArray)
+                },
+                error:function(errMessage){
+                    
+                }
+            })
+            
+            lv1.on("click",function(obj,data,subObj){
+                        appcan.window.open(data.pagename,data.pageurl,10);
+                        appcan.locStorage.remove("projectId");
+                        appcan.locStorage.remove("projectName");                      
+                        appcan.locStorage.setVal("projectId",data.id)
+                        appcan.locStorage.setVal("projectName",data.pagename)                       
+                    })
+            lv2.on("click",function(obj,data,subObj){
+                        appcan.window.open(data.pagename,data.pageurl,10);
+                        appcan.locStorage.remove("projectId");
+                        appcan.locStorage.remove("projectName");                      
+                        appcan.locStorage.setVal("projectId",data.id)
+                        appcan.locStorage.setVal("projectName",data.pagename)
+            })
         });
-
-
-
-    
-   
-var lv1 = appcan.listview({
-    selector : "#listview1",
-    type : "thinLine",
-    hasIcon : true,
-    hasAngle : false,
-    hasSubTitle : false,
-    multiLine : 1,
-});
-lv1.set([{
-    title : "临时数据",
-    icon:"../images/projectLogo/projectLogo1.png",
-    id:"1"
-}, {
-    title : "临时数据",
-    icon:"../images/projectLogo/projectLogo2.png",
-    id:"2"
-}])
-lv1.on("click",function(ele,obj,curEle){
-})
-
-var lv2 = appcan.listview({
-    selector : "#listview2",
-    type : "thinLine",
-    hasIcon : true,
-    hasAngle : false,
-    hasSubTitle : false,
-    multiLine : 1,
-});
-lv2.set([{
-    title : "临时数据",
-    icon:"../images/projectLogo/projectLogo3.png",
-    id:"1"
-}, {
-    title : "临时数据",
-    icon:"../images/projectLogo/projectLogo4.png",
-    id:"2"
-}])
-lv2.on("click",function(ele,obj,curEle){
-})
  </script>
 </html>

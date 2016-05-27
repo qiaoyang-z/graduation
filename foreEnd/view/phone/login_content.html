@@ -38,10 +38,10 @@
                             </div>
                         </div>
                         <div class="uinn-at2 ub sc-text-active ulev-4">
-                            <div class="ub-f1" id="register">
+                            <div class="ub-f1 tx-l" id="register">
                                 立即注册
                             </div>
-                            <div class="ub-f1 tx-r">
+                            <div class="ub-f1 tx-r" id="forget">
                                 忘记密码
                             </div>
                         </div>
@@ -54,18 +54,17 @@
         </div>
         <script src="js/appcan.js"></script>
         <script src="js/appcan.control.js"></script>
+        <script src="js/myAppcan.js"></script>
     </body>
     <script>
         appcan.ready(function() {
             appcan.initBounce();
             appcan.button("#submit", "ani-act", function() {
-            // $("form").submit();
             console.log("提交了")
-            // uexWindow.open("workBench","0","workBench/workIndex.html","0","0","0","0","200");
               var accountNumber = $("#accountNumber").val();
               var password = $("#password").val();
               appcan.request.ajax({
-                url : 'http://localhost/userLogin',
+                url : 'http://'+ip+'/userLogin',
                 type : 'POST',
                 dataType : 'json',
                 data : {
@@ -76,10 +75,22 @@
                     console.log(data)
                                         
                     if(data.status == 0){
+                        appcan.locStorage.remove("accountNumber");
+                        appcan.locStorage.remove("userEmail"); 
+                        appcan.locStorage.remove("userName"); 
+                        appcan.locStorage.remove("userId");
+                        appcan.locStorage.remove("taskName"); 
+                        appcan.locStorage.setVal("accountNumber",data.data.accountNumber)
+                        appcan.locStorage.setVal("userEmail",data.data.userEmail)
+                        appcan.locStorage.setVal("userName",data.data.userName)                  
+                        appcan.locStorage.setVal("userId",data.data.userId)
+                        appcan.locStorage.setVal("taskName",data.data.taskName)
+                         appcan.window.openToast(data.msg, 4000, 5);
                         uexWindow.open("workBench","0","workBench/workIndex.html","0","0","0","0","200");      
                     }else{
-                        appcan.window.openToast(data.msg, 2000, 5);
+                        appcan.window.openToast(data.msg, 4000, 5);
                     };
+                    
                     console.log("发送成功")
                 },
                 error : function(errMessage) {
@@ -88,32 +99,11 @@
                 }
             });
         })
-
-        // $("form").on('submit', function() {
-            // appcan.request.postForm($("form"), function() {
-                // appcan.window.alert({
-                    // title : "提醒",
-                    // content : "您已经提交了表单:)",
-                    // buttons : '确定',
-                    // callback : function(err, data, dataType, optId) {
-                        // console.log(err, data, dataType, optId);
-                    // }
-                // });
-            // }, function(err) {
-// 
-            // });
-//             
-//             
-            // return false;
-        // });
         $("#register").on('tap',function(){
-            appcan.window.open({
-                 name:register,
-                 dataType:0,
-                 aniId:2,
-                 data:"register.html",
-                 
-            });
+             uexWindow.open("register","0","register.html","0","0","0","0","200");
+        })
+        $("#forget").on('tap',function(){
+             uexWindow.open("forgetPassword","0","forgetPassword.html","0","0","0","0","200");
         })
         })
         
